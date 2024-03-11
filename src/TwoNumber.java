@@ -15,7 +15,7 @@ public class TwoNumber {
 		double quotient1 = num1 / num2;
 		double quotient2 = num2 / num1;
 		System.out.println("sum: " + sum);
-		System.out.println("difference: " + sum);
+		System.out.println("difference: " + difference);
 		System.out.println("product: " + product);
 		System.out.println("quotient1: " + quotient1);
 		System.out.println("quotient2: " + quotient2);
