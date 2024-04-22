@@ -1,3 +1,4 @@
+package aims;
 public class Cart {
     private DigitalVideoDisc[] discs;
     private int qtyOrdered;
@@ -19,7 +20,7 @@ public class Cart {
 
     public void removeDigitalVideoDisc(DigitalVideoDisc disc) {
         for (int i = 0; i < qtyOrdered; i++) {
-            if (discs[i] == disc) {
+            if (discs[i].equals(disc)) {
                 for (int j = i; j < qtyOrdered - 1; j++) {
                     discs[j] = discs[j + 1];
                 }
@@ -37,5 +38,25 @@ public class Cart {
             total += discs[i].getCost();
         }
         return total;
+    }
+
+    public void print(){
+        System.out.println("***********************CART***********************");
+        System.out.println("Ordered Items:");
+        for (int i = 0; i < qtyOrdered; i++) {
+            System.out.println(i+1+". DVD - "+discs[i].getTitle()+" - "+discs[i].getCategory()+" - "+discs[i].getDirector()+" - "+discs[i].getLength()+": "+discs[i].getCost());
+        }
+        System.out.println("Total cost is: "+totalCost());
+    }
+
+    public void searchByTitle(java.lang.String title){
+        for (int i = 0; i < qtyOrdered; i++) {
+            if(discs[i].getTitle() == title){
+                System.out.println("DVD - " + discs[i].getTitle() + " - " + discs[i].getCategory() + " - "
+                        + discs[i].getDirector() + " - " + discs[i].getLength() + ": " + discs[i].getCost());
+                return;
+            }
+        }
+        System.out.println("The disc was not found in the cart.");
     }
 }
