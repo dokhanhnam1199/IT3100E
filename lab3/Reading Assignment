@@ -1,0 +1,44 @@
+Q: What are the advantages of Polymorphism?
+A: Advantages of Polymorphism:
+- Flexibility: Allows objects of different classes to be treated as objects of a common superclass.
+- Reusability: Enables code to be written that can work with classes that don’t yet exist.
+- Maintainability: Simplifies code maintenance and updates due to decoupled and interchangeable components.
+
+Q: How is Inheritance useful to achieve Polymorphism in Java?
+A: Inheritance allows Java to use polymorphism by treating a subclass object as an instance of its superclass, enabling method overriding.
+
+Q: What are the differences between Polymorphism and Inheritance in Java?
+A: Inheritance is a mechanism for defining a new class based on an existing class, while polymorphism is the ability to present the same interface for different underlying forms (data types). 
+Inheritance is used for code reuse and establishing a relationship between classes, whereas polymorphism is used for flexibility and the ability to call the same method on different objects and have each of them respond appropriately.
+
+Q: What class should implement the Comparable interface?
+A: Media
+
+Q: In those classes, how should you implement the compareTo()method to reflect the ordering that we want?
+A: 
+    @Override
+    public int compare(Media m1, Media m2) {
+        int costCompare = Double.compare(m2.getCost(), m1.getCost());
+        if (costCompare != 0) {
+            return costCompare;
+        } else {
+            // If costs are the same, compare titles
+            return m1.getTitle().compareTo(m2.getTitle());
+        }
+    }
+    @Override
+    public int compare(Media m1, Media m2) {
+        int titleCompare = m1.getTitle().compareTo(m2.getTitle());
+        if (titleCompare != 0) {
+            return titleCompare;
+        } else {
+            // If titles are the same, compare cost in descending order
+            return Double.compare(m2.getCost(), m1.getCost());
+        }
+    }
+
+Q: Can we have two ordering rules of the item (by title then cost and by cost then title) if we use this Comparable interface approach?
+A: No. We should use Comparator thenComparing method.
+
+Q: Suppose the DVDs have a different ordering rule from the other media types, that is by title, then decreasing length, then cost. How would you modify your code to allow this?
+A: We should override the compare method in DVD which is inherited from Media.
