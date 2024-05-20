@@ -1,7 +1,7 @@
 package aims.media;
 import java.util.ArrayList;
 
-public class Book  extends Media{
+public class Book extends Media{
     private ArrayList<String> authors;
 
     public Book(int id, String title, String category, float cost){
@@ -35,16 +35,15 @@ public class Book  extends Media{
         sb.append(" - ").append(getId());
         sb.append(" - ").append(getTitle());
         sb.append(" - ").append(getCategory());
+        if (authors != null && !authors.isEmpty()) {
+            sb.append(" - authors=[");
+            for (String author : authors) {
+                sb.append(author);
+                sb.append(", ");
+            }
+            sb.append("]");
+        }
         sb.append(": ").append(getCost()).append('$');
-        sb.append(" - tracks=[");
-        for (String author : authors) {
-            sb.append(author);
-            sb.append(", ");
-        }
-        sb.append("]");
-        if (!authors.isEmpty()) {
-            sb.setLength(sb.length() - 2);
-        }
         return sb.toString();
     }
 }

@@ -119,36 +119,36 @@ public class Aims {
                     System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
-        scanner.close();
     }
     
     public static void mediaDetail() {
         Scanner scanner = new Scanner(System.in);
         String title;
         int choice = -1;
+        Media m;
         do {
             System.out.println("Enter title: ");
             title = scanner.nextLine();
-            Media m = store.searchByTitle(title);
-            if (m != null) {
-                mediaDetailsMenu();
-                choice = scanner.nextInt();
-                switch (choice) {
-                    case 1:
-                        cart.addMedia(m);
-                        break;
-                    case 2:
-                        m.play();
-                        break;
-                    case 0:
-                        return;
-                    default:
-                        System.out.println("Invalid choice. Please try again.");
-                }
-            } else
-                System.out.println("Item is not found in store.");
+            m = store.searchByTitle(title);
+            if (m == null) System.out.println("Item is not found in store.");
+        } while(m == null);
+
+        do {
+            mediaDetailsMenu();
+            choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    cart.addMedia(m);
+                    break;
+                case 2:
+                    m.play();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
         } while (choice != 0);
-        scanner.close();
     }
 
     public static void playMedia() {
@@ -157,16 +157,15 @@ public class Aims {
         title = scanner.nextLine();
         Media m = store.searchByTitle(title);
         if(m != null) m.play();
-        scanner.close();
     }
     
     public static void addMediaToCart(){
         Scanner scanner = new Scanner(System.in);
         String title;
+        System.out.println("Enter title: ");
         title = scanner.nextLine();
         Media m = store.searchByTitle(title);
         cart.addMedia(m);
-        scanner.close();
     }
 
     public static void updateStore() {
@@ -198,7 +197,6 @@ public class Aims {
                     System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
-        scanner.close();
     }
 
     public static void seeCurrentCart(){
@@ -230,7 +228,6 @@ public class Aims {
                     System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
-        scanner.close();
     }
 
     public static void filterMedia(){
@@ -262,7 +259,6 @@ public class Aims {
                     System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
-        scanner.close();
     }
 
     public static void sortMedia(){
@@ -275,6 +271,5 @@ public class Aims {
         String title = scanner.nextLine();
         Media m = cart.searchByTitle(title);
         cart.removeMedia(m);
-        scanner.close();
     }
 }

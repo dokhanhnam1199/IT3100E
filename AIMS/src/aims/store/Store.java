@@ -21,7 +21,6 @@ public class Store {
 
     public void print() {
         System.out.println("***********************STORE***********************");
-        System.out.println("Ordered Items:");
         int i = 1;
         for (Media media : itemsInStore) {
             System.out.println((i++) + ". " + media.toString());
@@ -31,8 +30,12 @@ public class Store {
 
     public Media searchByTitle(String title){
         for(Media m : itemsInStore){
-            if(m.getTitle() == title) return m; 
+            if(m.isMatch(title)) return m; 
         }
         return null;
+    }
+
+    public ArrayList<Media> getItemsInStore(){
+        return itemsInStore;
     }
 }

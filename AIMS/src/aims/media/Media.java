@@ -53,7 +53,8 @@ public abstract class Media {
         return this.title.equalsIgnoreCase(title);
     }
 
-    public void play(){}
+    public void play(){};
+    public void playMedia(){};
 
     @Override
     public boolean equals(Object obj) {
