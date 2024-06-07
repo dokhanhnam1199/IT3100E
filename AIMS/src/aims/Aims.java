@@ -3,6 +3,8 @@ package aims;
 import aims.cart.*;
 import aims.media.*;
 import aims.store.*;
+
+import javax.naming.LimitExceededException;
 import java.util.Scanner;
 
 public class Aims {
@@ -138,7 +140,11 @@ public class Aims {
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    cart.addMedia(m);
+                    try {
+                        cart.addMedia(m);
+                    } catch (LimitExceededException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 2:
                     m.play();
@@ -165,7 +171,11 @@ public class Aims {
         System.out.println("Enter title: ");
         title = scanner.nextLine();
         Media m = store.searchByTitle(title);
-        cart.addMedia(m);
+        try {
+            cart.addMedia(m);
+        } catch (LimitExceededException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void updateStore() {
@@ -246,7 +256,7 @@ public class Aims {
                 case 1:
                     System.out.println("Enter id: ");
                     int id = scanner.nextInt();
-                    cart.searchById(id);
+                    cart.searchByID(id);
                     break;
                 case 2:
                     System.out.println("Enter title: ");

@@ -1,66 +1,92 @@
 package aims.cart;
-import aims.media.*;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class Cart {
-    private ArrayList<Media> itemsOrdered = new ArrayList<Media>();
+import javax.naming.LimitExceededException;
 
-    public void addMedia(Media media) {
-        if(!itemsOrdered.contains(media)){
-            itemsOrdered.add(media);
-            System.out.println(media.getTitle() + " has been added.");
-        }
-        else {
-            System.out.println("The item is already in the cart.");
-        }
-    }
+import aims.media.Media;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-    public void removeMedia(Media media) {
-        if(itemsOrdered.remove(media)){
-            System.out.println(media.getTitle() + " has been removed.");
-        } else {
-            System.out.println(media.getTitle() + " was not found in the cart.");
-        }
-    }
+public class Cart  {
+	private ObservableList<Media> itemsOrdered = FXCollections.observableArrayList();
+	@SuppressWarnings("unused")
+	private static final int MAX_NUMBERS_ORDERED =1000;
+	private int qtyOrdered = 0;
+	
+	public void addMedia(Media media) throws LimitExceededException  {
+		if( itemsOrdered.size() <  MAX_NUMBERS_ORDERED) {
+			itemsOrdered.add(media);
+			qtyOrdered++;
+			System.out.println("The media has been added!");
+		}
+		else {
+			throw new LimitExceededException("ERROR: The number of"+ "media has reached its limit");
+		}
 
-    public float totalCost() {
-        float total = 0;
-        for (Media media : itemsOrdered) {
-            total += media.getCost();
-        }
-        return total;
-    }
+	}
+	
+	public void removeMedia(Media media) {
+		itemsOrdered.remove(media);
+		qtyOrdered--;
+		System.out.println("The media has been removed!");
+	}
 
-    public void print(){
-        System.out.println("***********************CART***********************");
-        System.out.println("Ordered Items:");
-        int i = 1;
-        for (Media media : itemsOrdered) {
-            System.out.println((i++) + ". " + media.toString());
-        }
-        System.out.println("Total cost is: "+ totalCost());
-        System.out.println("**************************************************");
-    }
+	public ObservableList< Media > getItemsOrdered() {
+		return itemsOrdered;
+	}
 
-    public Media searchByTitle(String title){
-        for (Media media : itemsOrdered) {
-            if(media.isMatch(title)){
-                System.out.println(media.toString());
-                return media;
-            }
-        }
-        System.out.println("the media was not found in the cart.");
-        return null;
-    }
+	public float totalCost() {
+		float total=0;
+		for(Media media : itemsOrdered) {
+			total+=media.getCost();
+		}
+		return total;
+	}
 
-    public Media searchById(int id) {
-        for (Media media : itemsOrdered) {
-            if (media.getId() == id) {
-                System.out.println(media.toString());
-                return media;
-            }
-        }
-        System.out.println("the media was not found in the cart.");
-        return null;
-    }
+	public void searchByID(int id) {
+		for(Media media : itemsOrdered) {
+			if(media.getId() == id){
+				System.out.println(media.toString());
+			}
+		}
+		System.out.println("Can't found this DVD\n");
+	}
+
+	@SuppressWarnings("unlikely-arg-type")
+	public Media searchByTitle(String title) {
+		for(Media media : itemsOrdered) {
+			if(media.equals(title)) {
+				System.out.println(media.toString());
+				return media;
+			}
+			
+		}
+		System.out.println("Can't found this DVD\n");
+		return null;
+	}
+
+	public void sortPrint(Comparator<Media> comparator) {
+		Cart cartClone = new Cart();
+		cartClone.itemsOrdered.addAll(itemsOrdered);
+		Collections.sort(cartClone.itemsOrdered,comparator);
+		cartClone.print();
+	}
+	public void reset() {
+		itemsOrdered.clear();
+	}
+	// In ra thông tin chi tiết đơn hàng
+	public void print() {
+		int stt=0;
+		System.out.println("***********************CART***********************");
+		System.out.println("Ordered Items:");
+		System.out.printf("%5s%-5s%-5s%-20s%-10s%5s\n","STT","Type","ID","Title","Category","Cost");
+		for(Media media : itemsOrdered) {
+			stt++;
+			System.out.printf("%5d%s\n",stt,media.toString());
+		}
+		System.out.printf("%45s,%5f\n","Total Cost",totalCost());
+		System.out.println("***************************************************");
+	}
+	
 }
